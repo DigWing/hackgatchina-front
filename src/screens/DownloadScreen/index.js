@@ -88,7 +88,7 @@ export default compose(
   }),
 
   withHandlers({
-    uploadPhoto: ({ offline, setLoading, sendProblem, latitude, longitude, setResultId }) => (image) => {
+    uploadPhoto: ({ offline, setLoading, sendProblem, setResultId }) => (image, ltd, lng) => {
       if (offline) {
         localStorage.setItem('image', image);
         alert('You are offline. Image saved locally, it will be uploaded once internet connection is detected');
@@ -108,8 +108,8 @@ export default compose(
               sendProblem({
                 requestBody: {
                   image: imageUrl,
-                  ltd: latitude,
-                  lng: longitude,
+                  ltd,
+                  lng,
                   user: '1',
                 },
               })
@@ -133,15 +133,21 @@ export default compose(
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            this.props.setLatitude(position.coords.latitude);
-            this.props.setLongitude(position.coords.longitude);
+            this.props.uploadPhoto(
+              this.props.location.state.image.base64,
+              position.coords.latitude,
+              position.coords.longitude,
+            );
           },
-          () => console.log('Geolocation not supported'),
+          () => {
+            this.props.uploadPhoto(this.props.location.state.image.base64, 0, 0);
+            console.log('Geolocation not supported')
+          },
         );
       } else {
+        this.props.uploadPhoto(this.props.location.state.image.base64, 0, 0);
         console.log('Geolocation not supported');
       }
-      this.props.uploadPhoto(this.props.location.state.image.base64);
     },
   }),
 )(DownloadScreen);
