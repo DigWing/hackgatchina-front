@@ -92,8 +92,8 @@ export default compose(
       if (offline) {
         localStorage.setItem('image', image);
         alert('You are offline. Image saved locally, it will be uploaded once internet connection is detected');
+        setLoading(false);
       } else {
-        setLoading(true);
         axios.post(
           `https://api.cloudinary.com/v1_1/${cloudinaryConfig.name}/image/upload`,
           {
@@ -130,6 +130,7 @@ export default compose(
 
   lifecycle({
     componentDidMount() {
+      this.props.setLoading(true);
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
