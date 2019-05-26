@@ -1,0 +1,31 @@
+.captureButton {
+    position: absolute;
+    background-color: #ffffff4d;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    bottom: 50px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.captureButton div {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+#webcam {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+}
